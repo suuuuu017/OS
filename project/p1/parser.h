@@ -10,6 +10,11 @@
 #include <string.h>
 #include <unistd.h>
 
-char ** returnCommandTable(char **line_pointer, size_t length);
+typedef struct{
+    char ** commandTable;
+    char ** redirectionTable;
+} parserTable;
+
+parserTable * returnCommandTable(char **line_pointer, size_t length);
 
 #endif //VE482_2021FA_PARSER_H

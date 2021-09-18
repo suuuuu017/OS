@@ -26,6 +26,7 @@ int main(){
 
     do{
         //just exit special case
+        //TODO: wrong waiting prompt
         printf("mumsh $ ");
         length = getline(line_pointer, &size, stdin);
 //        printf("The number of characters getline() read: %zu\n", characters);
@@ -35,7 +36,10 @@ int main(){
             notExit = 0;
         }
         else {
-            char ** commandTable = returnCommandTable(line_pointer, length);
+            parserTable * parsTab;
+            parsTab = returnCommandTable(line_pointer, length);
+            char ** commandTable = parsTab->commandTable;
+//            char ** commandTable = returnCommandTable(line_pointer, length);
             pid = fork();
             if (pid == 0) {
                 execvp(commandTable[0], commandTable);
