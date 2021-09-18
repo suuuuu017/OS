@@ -3,6 +3,7 @@
 //
 
 #include "main.h"
+#include "parser.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,9 +16,10 @@ int main(){
 
     //input line setup
     char l[1024];
-    char *line = l;
+    char * line = l;
     size_t size = 1024;
     char **line_pointer = &line;
+    size_t length = 0;
 
     //pid for executor
     pid_t pid = 0;
@@ -25,20 +27,30 @@ int main(){
     do{
         //just exit special case
         printf("mumsh $ ");
-        size_t characters = getline(line_pointer, &size, stdin);
+        length = getline(line_pointer, &size, stdin);
 //        printf("The number of characters getline() read: %zu\n", characters);
 //        printf("You typed: %s\n",line);
         if (strcmp(line, "exit\n") == 0){
             printf("mumsh $ exit\n");
             notExit = 0;
         }
-        else if (strcmp(line, "ls\n") == 0){
-            char *cmd = "ls";
-            char *argv[3];
-            argv[0] = "ls";
-            argv[1] = "-la";
-            argv[2] = NULL;
-            execvp(cmd, argv);
+        else {
+            char * command[2];
+            const char space[2] = " \n";
+            char * token;
+            printf("line is %s", *line_pointer);
+            token = strtok(*line_pointer, space);
+            command[0] = token;
+            printf("command is %s", token);
+            int i = 1;
+            while(token != NULL){
+                token = strtok(NULL, space);
+                printf("i is %i\n", i);
+                command[1] = token;
+                i = i + 1;
+                printf("argument is %s", token);
+            }
+            execvp(command[0], command);
         }
     } while (notExit);
 }
