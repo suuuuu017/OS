@@ -35,22 +35,22 @@ int main(){
             notExit = 0;
         }
         else {
-            char * command[2];
+            char ** commandTable = malloc(sizeof(char *) * length);
             const char space[2] = " \n";
             char * token;
-            printf("line is %s", *line_pointer);
+//            printf("line is %s", *line_pointer);
             token = strtok(*line_pointer, space);
-            command[0] = token;
-            printf("command is %s", token);
+            commandTable[0] = token;
+//            printf("command is %s", token);
             int i = 1;
             while(token != NULL){
                 token = strtok(NULL, space);
-                printf("i is %i\n", i);
-                command[1] = token;
+//                printf("i is %i\n", i);
+                commandTable[i] = token;
                 i = i + 1;
-                printf("argument is %s", token);
+//                printf("argument is %s", token);
             }
-            execvp(command[0], command);
+            execvp(commandTable[0], commandTable);
         }
     } while (notExit);
 }
