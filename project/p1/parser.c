@@ -4,18 +4,6 @@
 
 #include "parser.h"
 
-//typedef struct{
-//    char * cmd;
-//    char * argument[10];
-//    int * commandLength;
-//    int * redTabLength;
-//} command;
-
-//typedef struct{
-//    char ** commandTable;
-//    char ** redirectionTable;
-//} parserTable;
-
 parserTable * returnCommandTable(char **line_pointer, size_t length, int cL, int rL) {
 //    command comm;
     parserTable *parserTab = malloc(sizeof(char **) * 2);
@@ -31,7 +19,6 @@ parserTable * returnCommandTable(char **line_pointer, size_t length, int cL, int
     token = strtok(*line_pointer, space);
     commandTable[0] = token;
 //    printf("command is %s", token);
-//    commandLength = 1;
     int i = cL;
     int j = rL;
     while(token != NULL){
