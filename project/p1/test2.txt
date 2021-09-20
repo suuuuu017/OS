@@ -1,0 +1,98 @@
+mumsh $ VE482-FA2018-public-master
+input.txt
+main
+main.c
+main.h
+parser.c
+parser.h
+tesst.txt
+test.txt
+test2.txt
+direction symbol is >>
+file name is test2.txt
+mumsh $ total 168
+drwxr-xr-x  12 suuuuu017  staff    384 Sep 20 18:32 .
+drwxr-xr-x   3 suuuuu017  staff     96 Sep 17 02:05 ..
+drwxr-xr-x   4 suuuuu017  staff    128 Sep 18 19:56 VE482-FA2018-public-master
+-rw-r--r--   1 suuuuu017  staff      6 Sep 20 18:03 input.txt
+-rwxr-xr-x   1 suuuuu017  staff  50096 Sep 20 18:32 main
+-rw-r--r--   1 suuuuu017  staff   1303 Sep 20 18:28 main.c
+-rw-r--r--   1 suuuuu017  staff    132 Sep 17 02:06 main.h
+-rw-r--r--   1 suuuuu017  staff   3280 Sep 20 18:27 parser.c
+-rw-r--r--   1 suuuuu017  staff    396 Sep 20 17:51 parser.h
+-rw-r--r--   1 suuuuu017  staff      9 Sep 20 17:57 tesst.txt
+-rw-r--r--   1 suuuuu017  staff     30 Sep 20 18:00 test.txt
+-rw-r--r--   1 suuuuu017  staff    165 Sep 20 18:32 test2.txt
+
+mumsh $ abcisit
+mumsh $ input code is 3
+echoooo abcisitthe command comes out is 1
+the redir comes out is 4
+mumsh $ the command comes out is 1
+the redir comes out is 4
+mumsh $ the command comes out is 1
+the redir comes out is 0
+mumsh $ direction symbol is >>
+file name is test2.txt
+the command comes out is 1
+the redir comes out is 2
+mumsh $ the command comes out is -334334928
+the redir comes out is 32766
+mumsh $ VE482-FA2018-public-master
+input.txt
+main
+main.c
+main.h
+parser.c
+parser.h
+tesst.txt
+test.txt
+test2.txt
+the command comes out is 1
+the redir comes out is 4
+mumsh $ fn is input.txt
+
+
+
+
+
+the command comes out is 1
+the redir comes out is 4
+mumsh $ fn is input.txt
+the command comes out is 1
+the redir comes out is 2
+mumsh $ the command comes out is 1
+the redir comes out is 4
+mumsh $ fn is input.txt
+the command comes out is 1
+the redir comes out is 4
+mumsh $ fn is input.txt
+the command comes out is 1
+the redir comes out is 0
+mumsh $ the command comes out is 1
+the redir comes out is 0
+mumsh $ the command comes out is 1
+the redir comes out is 0
+mumsh $ the command comes out is 1
+the redir comes out is 0
+mumsh $ the command comes out is 1
+the redir comes out is 0
+mumsh $ the command comes out is 1
+the redir comes out is 0
+mumsh $ the command comes out is 1
+the redir comes out is 0
+mumsh $ the command comes out is 1
+the redir comes out is 0
+mumsh $ the command comes out is 1
+the redir comes out is 0
+mumsh $ the command comes out is 1
+the redir comes out is 0
+mumsh $ the command comes out is 1
+the redir comes out is 0
+mumsh $ the command comes out is 1
+the redir comes out is 0
+mumsh $ the command comes out is 1
+the redir comes out is 0
+mumsh $ the command comes out is 1
+the redir comes out is 0
+mumsh $ mumsh $ exit

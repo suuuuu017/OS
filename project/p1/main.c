@@ -31,17 +31,41 @@ int main(){
         length = getline(line_pointer, &size, stdin);
 //        printf("The number of characters getline() read: %zu\n", characters);
 //        printf("You typed: %s\n",line);
+
         if (strcmp(line, "exit\n") == 0){
             printf("mumsh $ exit\n");
             notExit = 0;
         }
         else {
             parserTable * parsTab;
-            parsTab = returnCommandTable(line_pointer, length);
+            int commandLength = 1;
+            int redTabLength = 0;
+            //TODO: weird behaviour when add two parameters
+            parsTab = returnCommandTable(line_pointer, length, 1, 0);
             char ** commandTable = parsTab->commandTable;
+            char ** redirectionTable = parsTab->redirectionTable;
+            commandLength = parsTab->commandLength;
+            redTabLength = parsTab->redTabLength;
+            printf("the command comes out is %i\n", commandLength);
+            printf("the redir comes out is %i\n", redTabLength);
+            //TODO: weird processing order when input redirection is involved
 //            char ** commandTable = returnCommandTable(line_pointer, length);
             pid = fork();
             if (pid == 0) {
+//                char * fn = "input.txt";
+//                int input = open(fn, O_RDONLY);
+//                printf("input code is %i\n", input);
+//                dup2(input, STDIN_FILENO);
+//                close(input);
+                for(int k = 0; k < redTabLength; k++){
+                    if(strcmp(redirectionTable[k], "<") == 0){
+                        char * fn = redirectionTable[k + 1];
+                        int input = open(fn, O_RDONLY);
+                        printf("fn is %s\n", fn);
+                        dup2(input, STDIN_FILENO);
+                        close(input);
+                    }
+                }
                 execvp(commandTable[0], commandTable);
             }
 //            execvp(commandTable[0], commandTable);
