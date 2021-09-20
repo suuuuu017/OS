@@ -96,3 +96,67 @@ the redir comes out is 0
 mumsh $ the command comes out is 1
 the redir comes out is 0
 mumsh $ mumsh $ exit
+the command comes out is -488852432
+the redir comes out is 32766
+HP: hello from parent
+now command tab is -al
+HC: hello from child
+total 168
+drwxr-xr-x  12 suuuuu017  staff    384 Sep 21 03:08 .
+drwxr-xr-x   3 suuuuu017  staff     96 Sep 17 02:05 ..
+drwxr-xr-x   4 suuuuu017  staff    128 Sep 18 19:56 VE482-FA2018-public-master
+-rw-r--r--   1 suuuuu017  staff     15 Sep 21 01:42 input.txt
+-rwxr-xr-x   1 suuuuu017  staff  50136 Sep 21 03:08 main
+-rw-r--r--   1 suuuuu017  staff   2716 Sep 21 03:08 main.c
+-rw-r--r--   1 suuuuu017  staff    132 Sep 17 02:06 main.h
+-rw-r--r--   1 suuuuu017  staff   3248 Sep 21 03:08 parser.c
+-rw-r--r--   1 suuuuu017  staff    457 Sep 21 03:08 parser.h
+-rw-r--r--   1 suuuuu017  staff      9 Sep 21 01:42 tesst.txt
+-rw-r--r--   1 suuuuu017  staff     30 Sep 21 01:42 test.txt
+-rw-r--r--   1 suuuuu017  staff   2778 Sep 21 03:09 test2.txt
+CT: child has terminated
+mumsh $ the command comes out is -420359120
+the redir comes out is 32766
+HP: hello from parent
+now command tab is (null)
+HC: hello from child
+VE482-FA2018-public-master
+input.txt
+main
+main.c
+main.h
+parser.c
+parser.h
+tesst.txt
+test.txt
+test2.txt
+CT: child has terminated
+mumsh $ the command comes out is 0
+the redir comes out is 0
+HP: hello from parent
+now command tab is (null)
+HC: hello from child
+CT: child has terminated
+mumsh $ the command comes out is 0
+the redir comes out is 0
+HP: hello from parent
+now command tab is (null)
+HC: hello from child
+CT: child has terminated
+mumsh $ the command comes out is -420359120
+the redir comes out is 32766
+HP: hello from parent
+now command tab is (null)
+HC: hello from child
+VE482-FA2018-public-master
+input.txt
+main
+main.c
+main.h
+parser.c
+parser.h
+tesst.txt
+test.txt
+test2.txt
+CT: child has terminated
+mumsh $ mumsh $ exit

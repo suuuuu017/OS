@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 int main(){
     //exit flag
@@ -39,6 +40,7 @@ int main(){
             int commandLength = 1;
             int redTabLength = 0;
             //TODO: weird behaviour when add two parameters
+            //TODO: free up the space
             parsTab = returnCommandTable(line_pointer, length, 1, 0);
             char ** commandTable = parsTab->commandTable;
             char ** redirectionTable = parsTab->redirectionTable;
@@ -50,16 +52,29 @@ int main(){
 //            char ** commandTable = returnCommandTable(line_pointer, length);
             pid = fork();
             if (pid == 0) {
-                for(int k = 0; k < redTabLength; k++){
-                    if(strcmp(redirectionTable[k], "<") == 0){
-                        char * fn = redirectionTable[k + 1];
-                        int input = open(fn, O_RDONLY);
-                        printf("fn is %s\n", fn);
-                        dup2(input, STDIN_FILENO);
-                        close(input);
-                    }
+//                for(int k = 0; k < redTabLength; k++){
+//                    if(strcmp(redirectionTable[k], "<") == 0){
+//                        char * fn = redirectionTable[k + 1];
+//                        int input = open(fn, O_RDONLY);
+//                        printf("fn is %s\n", fn);
+//                        dup2(input, STDIN_FILENO);
+//                        close(input);
+//                    }
+//                }
+                printf("now command tab is %s\n", commandTable[1]);
+                printf("HC: hello from child\n");
+                if(execvp(commandTable[0], commandTable) == -1){
+                    printf("false\n");
                 }
-                execvp(commandTable[0], commandTable);
+//                printf("pid isis %i\n", pid);
+                printf("now command tab is %s\n", commandTable[0]);
+//                execvp(commandTable[0], commandTable);
+                printf("HC: bye from child\n");
+            }
+            else {
+                printf("HP: hello from parent\n");
+                wait(NULL);
+                printf("CT: child has terminated\n");
             }
 //            execvp(commandTable[0], commandTable);
         }
