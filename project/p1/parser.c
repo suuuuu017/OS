@@ -37,6 +37,7 @@ parserTable * returnCommandTable(char **line_pointer, size_t length) {
         if(token){
             if (strcmp(token, ">") == 0){
                 //TODO: what it ">1.txt" with no space
+                //TODO: wrong writing template
                 redirectionTable[j] = token;
                 printf("direction symbol is %s\n", token);
                 j = j + 1;
@@ -44,8 +45,25 @@ parserTable * returnCommandTable(char **line_pointer, size_t length) {
                 redirectionTable[j] = token;
                 j = j + 1;
                 printf("file name is %s\n", token);
+                int overwrite = creat(token, 0644);
+                dup2(overwrite, STDOUT_FILENO);
+                close(overwrite);
             }
 //                printf("i is %i\n", i);
+            else if (strcmp(token, ">>") == 0){
+                //TODO: what it ">1.txt" with no space
+                redirectionTable[j] = token;
+                printf("direction symbol is %s\n", token);
+                j = j + 1;
+                token = strtok(NULL, space);
+                redirectionTable[j] = token;
+                j = j + 1;
+                printf("file name is %s\n", token);
+                //TODO: is this open correct and the 0644
+                int append = open(token, O_CREAT | O_RDWR | O_APPEND, 0644);
+                dup2(append, STDOUT_FILENO);
+                close(append);
+            }
             else{
                 commandTable[i] = token;
                 i = i + 1;
