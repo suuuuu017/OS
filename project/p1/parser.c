@@ -24,6 +24,7 @@ parserTable * returnCommandTable(char **line_pointer, size_t length, int cL, int
     while(token != NULL){
         token = strtok(NULL, space);
         //TODO: why double check token == null?
+        printf("wtf  is %s\n", token);
         if(token){
             if (strcmp(token, ">") == 0){
                 //TODO: what it ">1.txt" with no space
@@ -74,9 +75,9 @@ parserTable * returnCommandTable(char **line_pointer, size_t length, int cL, int
 //                close(input);
             }
             else{
+                printf("argument is %s, i is %i\n", token, i);
                 commandTable[i] = token;
                 i = i + 1;
-//                printf("argument is %s", token);
             }
         }
     }
