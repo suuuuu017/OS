@@ -160,3 +160,58 @@ test.txt
 test2.txt
 CT: child has terminated
 mumsh $ mumsh $ exit
+the command comes out is -425532368
+the redir comes out is 32766
+HP: hello from parent
+now command tab is (null)
+HC: hello from child
+VE482-FA2018-public-master
+input.txt
+main
+main.c
+main.h
+parser.c
+parser.h
+tesst.txt
+test.txt
+test2.txt
+CT: child has terminated
+mumsh $ the command comes out is 0
+the redir comes out is 0
+HP: hello from parent
+now command tab is (null)
+HC: hello from child
+CT: child has terminated
+mumsh $ file name is input.txt
+input code is 3
+the command comes out is -425532368
+the redir comes out is 32766
+HP: hello from parent
+now command tab is (null)
+HC: hello from child
+echoooo abcisitCT: child has terminated
+mumsh $
+
+
+
+the command comes out is -314960848
+the redir comes out is 32766
+HP: hello from parent
+now command tab is (null)
+HC: hello from child
+echoooo abcisit
+CT: child has terminated
+
+
+mumsh $ the command comes out is 1
+the redir comes out is 4
+HP: hello from parent
+now command tab is (null)
+HC: hello from child
+CT: child has terminated
+mumsh $ the command comes out is 2
+the redir comes out is 0
+HP: hello from parent
+now command tab is abcisit
+HC: hello from child
+CT: child has terminated
