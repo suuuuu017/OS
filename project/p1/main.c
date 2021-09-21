@@ -63,14 +63,8 @@ int main(){
             int status = 0;
             pid = fork();
             if (pid == 0) {
-                for(int k = 0; k < 2; k++){
-//                    if(strcmp(redirectionTable[k], ">") == 0){
-//                        char * fn = redirectionTable[k + 1];
-//                        int input = open(fn, O_RDONLY);
-//                        printf("fn is %s\n", fn);
-//                        dup2(input, STDIN_FILENO);
-//                        close(input);
-//                    }
+                if(redirectionTable[0]){
+                    redir(redirectionTable);
                 }
                 printf("now command tab is %s\n", commandTable[0]);
                 printf("HC: hello from child\n");

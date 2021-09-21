@@ -6,12 +6,12 @@
 
 parserTable * returnCommandTable(char **line_pointer, size_t length, int cL, int rL) {
 //    command comm;
-    parserTable *parserTab = malloc(sizeof(char **) * 2);
+    parserTable *parserTab = malloc(sizeof(char **) * 1024);
 
     //TODO: can i shrink the size to write size?
 
-    char ** commandTable = malloc(sizeof(char *) * length);
-    char ** redirectionTable = malloc(sizeof(char *) * length);
+    char ** commandTable = malloc(sizeof(char *) * 1024);
+    char ** redirectionTable = malloc(sizeof(char *) * 1024);
 
     const char space[2] = " \n";
     char * token;
@@ -89,4 +89,40 @@ parserTable * returnCommandTable(char **line_pointer, size_t length, int cL, int
 //    printf("here??");
 
     return parserTab;
+}
+
+void redir(char ** redirectionTable){
+    for(int k = 0; redirectionTable[k]!=NULL; k++){
+        char * tmp = redirectionTable[k];
+        printf("tmp is %s\n", tmp);
+        if(strcmp(redirectionTable[k], "<") == 0){
+            printf("wht\n");
+            k = k + 1;
+            char * fn = redirectionTable[k];
+            int input = open(fn, O_RDONLY);
+            printf("fn is %s\n", fn);
+            dup2(input, STDIN_FILENO);
+            close(input);
+        }
+        else if (strcmp(redirectionTable[k], ">") == 0){
+            //TODO: what it ">1.txt" with no space
+            //TODO: wrong writing template
+            k = k + 1;
+            char * fn = redirectionTable[k];
+            printf("file name is %s\n", fn);
+            int overwrite = creat(fn, 0644);
+            dup2(overwrite, STDOUT_FILENO);
+            close(overwrite);
+        }
+        else if (strcmp(redirectionTable[k], ">>") == 0){
+            //TODO: what it ">1.txt" with no space
+            //TODO: wrong writing template
+            k = k + 1;
+            char * fn = redirectionTable[k];
+            printf("file name is %s\n", fn);
+            int append = open(fn, O_CREAT | O_RDWR | O_APPEND, 0644);
+            dup2(append, STDOUT_FILENO);
+            close(append);
+        }
+    }
 }

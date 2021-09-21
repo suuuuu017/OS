@@ -20,4 +20,7 @@ typedef struct{
 
 parserTable * returnCommandTable(char **line_pointer, size_t length, int cL, int rL);
 
+void redir(char ** redirectionTable);
+
 #endif //VE482_2021FA_PARSER_H
+
