@@ -66,15 +66,15 @@ int main(){
                 if(redirectionTable[0]){
                     redir(redirectionTable);
                 }
-                printf("now command tab is %s\n", commandTable[0]);
-                printf("HC: hello from child\n");
+//                printf("now command tab is %s\n", commandTable[0]);
+//                printf("HC: hello from child\n");
                 if(execvp(commandTable[0], commandTable) == -1){
                     printf("false\n");
                 }
 //                printf("pid isis %i\n", pid);
-                printf("now command tab is %s\n", commandTable[0]);
+//                printf("now command tab is %s\n", commandTable[0]);
 //                execvp(commandTable[0], commandTable);
-                printf("HC: bye from child\n");
+//                printf("HC: bye from child\n");
             }
             else {
 //                printf("HP: hello from parent, pid is %i\n", pid);
