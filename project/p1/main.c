@@ -49,14 +49,14 @@ int main(){
         else {
             parserTable * parsTab;
 //            int commandLength;
-//            int redTabLength;
+            int redTabLength;
             //TODO: weird behaviour when add two parameters
             //TODO: free up the space
             parsTab = returnCommandTable(line_pointer, 1, 0);
             char ** commandTable = parsTab->commandTable;
             char ** redirectionTable = parsTab->redirectionTable;
 //            commandLength = parsTab->commandLength;
-//            redTabLength = parsTab->redTabLength;
+            redTabLength = parsTab->redTabLength;
 //            printf("the command comes out is %i\n", parsTab->commandLength);
 //            printf("the redir comes out is %i\n", parsTab->redTabLength);
             //TODO: weird processing order when input redirection is involved
@@ -74,7 +74,7 @@ int main(){
             pid = fork();
             if (pid == 0) {
                 if(redirectionTable[0]){
-                    redir(redirectionTable);
+                    redir(redirectionTable, redTabLength);
                 }
 //                printf("now command tab is %s\n", commandTable[0]);
 //                printf("HC: hello from child\n");
@@ -85,6 +85,9 @@ int main(){
 //                printf("now command tab is %s\n", commandTable[0]);
 //                execvp(commandTable[0], commandTable);
 //                printf("HC: bye from child\n");
+//                free(parsTab->commandTable);
+//                free(parsTab->redirectionTable);
+//                free(parsTab);
             }
             else {
 //                printf("HP: hello from parent, pid is %i\n", pid);
@@ -95,9 +98,9 @@ int main(){
                 } while (!WIFEXITED(status) && !WIFSIGNALED(status));
             }
 //            execvp(commandTable[0], commandTable);
-            free(parsTab->commandTable);
-            free(parsTab->redirectionTable);
-            free(parsTab);
+//            free(parsTab->commandTable);
+//            free(parsTab->redirectionTable);
+//            free(parsTab);
         }
 //        free(line_pointer);
     }while(notExit && (getline(line_pointer, &size, stdin) >=0));

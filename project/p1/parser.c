@@ -13,6 +13,7 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
     char ** commandTable = malloc(sizeof(char *) * 1024);
     char ** redirectionTable = malloc(sizeof(char *) * 1024);
 
+    //TODO: space[]??
     const char space[1024] = " \n";
     char * token;
 //    printf("line is %s", *line_pointer);
@@ -83,7 +84,7 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
     }
 
 //    parserTab->commandLength = i;
-//    parserTab->redTabLength = j;
+    parserTab->redTabLength = j;
     parserTab->commandTable = commandTable;
     parserTab->redirectionTable = redirectionTable;
 //    printf("here??");
@@ -91,8 +92,8 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
     return parserTab;
 }
 
-void redir(char ** redirectionTable){
-    for(int k = 0; redirectionTable[k]!=NULL; k++){
+void redir(char ** redirectionTable, int redTabLength){
+    for(int k = 0; k < redTabLength; k++){
 //        char * tmp = redirectionTable[k];
 //        printf("tmp is %s\n", tmp);
         if(strcmp(redirectionTable[k], "<") == 0){
