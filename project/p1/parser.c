@@ -4,7 +4,7 @@
 
 #include "parser.h"
 
-parserTable * returnCommandTable(char **line_pointer, size_t length, int cL, int rL) {
+parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
 //    command comm;
     parserTable *parserTab = malloc(sizeof(char **) * 1024);
 
@@ -13,9 +13,9 @@ parserTable * returnCommandTable(char **line_pointer, size_t length, int cL, int
     char ** commandTable = malloc(sizeof(char *) * 1024);
     char ** redirectionTable = malloc(sizeof(char *) * 1024);
 
-    const char space[2] = " \n";
+    const char space[1024] = " \n";
     char * token;
-//            printf("line is %s", *line_pointer);
+//    printf("line is %s", *line_pointer);
     token = strtok(*line_pointer, space);
     commandTable[0] = token;
 //    printf("command is %s", token);
@@ -35,7 +35,7 @@ parserTable * returnCommandTable(char **line_pointer, size_t length, int cL, int
                 token = strtok(NULL, space);
                 redirectionTable[j] = token;
                 j = j + 1;
-//                printf("file name is %s\n", token);
+//                printf("file name is here %s\n", token);
 //                int overwrite = creat(token, 0644);
 //                dup2(overwrite, STDOUT_FILENO);
 //                close(overwrite);
@@ -93,7 +93,7 @@ parserTable * returnCommandTable(char **line_pointer, size_t length, int cL, int
 
 void redir(char ** redirectionTable){
     for(int k = 0; redirectionTable[k]!=NULL; k++){
-        char * tmp = redirectionTable[k];
+//        char * tmp = redirectionTable[k];
 //        printf("tmp is %s\n", tmp);
         if(strcmp(redirectionTable[k], "<") == 0){
 //            printf("wht\n");

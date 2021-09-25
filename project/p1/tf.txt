@@ -1,5 +1,0 @@
-now command tab is cat
-HC: hello from child
-echoooo abcisitnow command tab is cat
-HC: hello from child
-echoooo abcisit

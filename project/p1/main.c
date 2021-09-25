@@ -20,21 +20,31 @@ int main(){
     char * line = l;
     size_t size = 1024;
     char **line_pointer = &line;
-    size_t length = 0;
+//    size_t length = 0;
 
     //pid for executor
     pid_t pid;
 
+//    int tmp = 1024;
+//    while(fgets(line, tmp, stdin)){
+//        printf("line is %s", line);
+//    }
+//    fgets(line, tmp, stdin);
+//    fgets(line, tmp, stdin);
+    getline(line_pointer, &size, stdin);
     do{
         //just exit special case
         //TODO: wrong waiting prompt
         printf("mumsh $ ");
-        length = getline(line_pointer, &size, stdin);
+        fflush(stdout);
+//        getline(line_pointer, &size, stdin);
+//        printf("line is %s", line);
 
+        //TODO: does this exit have to be followed by a new line?
         if (strcmp(line, "exit\n") == 0){
-            printf("mumsh $ exit\n");
+            printf("exit\n");
             notExit = 0;
-            break;
+            return 0;
         }
         else {
             parserTable * parsTab;
@@ -42,7 +52,7 @@ int main(){
 //            int redTabLength;
             //TODO: weird behaviour when add two parameters
             //TODO: free up the space
-            parsTab = returnCommandTable(line_pointer, length, 1, 0);
+            parsTab = returnCommandTable(line_pointer, 1, 0);
             char ** commandTable = parsTab->commandTable;
             char ** redirectionTable = parsTab->redirectionTable;
 //            commandLength = parsTab->commandLength;
@@ -85,10 +95,10 @@ int main(){
                 } while (!WIFEXITED(status) && !WIFSIGNALED(status));
             }
 //            execvp(commandTable[0], commandTable);
-//            free(commandTable);
-//            free(redirectionTable);
-//            free(parsTab);
+            free(parsTab->commandTable);
+            free(parsTab->redirectionTable);
+            free(parsTab);
         }
 //        free(line_pointer);
-    }while(notExit);
+    }while(notExit && (getline(line_pointer, &size, stdin) >=0));
 }

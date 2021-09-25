@@ -1,2 +1,0 @@
-the command comes out is -440191952
-the redir comes out is 32766
