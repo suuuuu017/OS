@@ -84,7 +84,7 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
         }
     }
 
-//    parserTab->commandLength = i;
+    parserTab->commandLength = i;
     parserTab->redTabLength = j;
     parserTab->commandTable = commandTable;
     parserTab->redirectionTable = redirectionTable;
