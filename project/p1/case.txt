@@ -1,0 +1,6 @@
+echo 321 > 1.txt
+echo 123 > 2.txt
+cat 2.txt
+cat 1.txt
+ls
+exit

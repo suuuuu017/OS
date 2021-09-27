@@ -315,5 +315,5 @@ cmake-build-debug
 !case*.out
 runtime
 *.zip
-!/Makefile
+!/p1/Makefile
 !/compile_guide/Makefile

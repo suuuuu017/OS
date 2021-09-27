@@ -14,16 +14,17 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
     char ** redirectionTable = malloc(sizeof(char *) * 1024);
 
     //TODO: space[]??
-    const char space[1024] = " \n";
+//    const char space[1024] = " \t\n";
     char * token;
-//    printf("line is %s", *line_pointer);
-    token = strtok(*line_pointer, space);
+    *line_pointer = strtok(*line_pointer, "\n'?");
+//    printf("line isis %s\n", *line_pointer);
+    token = strtok(*line_pointer, " \t\n");
     commandTable[0] = token;
 //    printf("command is %s", token);
     int i = cL;
     int j = rL;
     while(token != NULL){
-        token = strtok(NULL, space);
+        token = strtok(NULL, " \t\n");
         //TODO: why double check token == null?
 //        printf("wtf  is %s\n", token);
         if(token){
@@ -33,7 +34,7 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
                 redirectionTable[j] = token;
 //                printf("direction symbol is %s\n", token);
                 j = j + 1;
-                token = strtok(NULL, space);
+                token = strtok(NULL, " \t\n");
                 redirectionTable[j] = token;
                 j = j + 1;
 //                printf("file name is here %s\n", token);
@@ -47,7 +48,7 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
                 redirectionTable[j] = token;
 //                printf("direction symbol is %s\n", token);
                 j = j + 1;
-                token = strtok(NULL, space);
+                token = strtok(NULL, " \t\n");
                 redirectionTable[j] = token;
                 j = j + 1;
 //                printf("file name is %s\n", token);
@@ -61,7 +62,7 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
                 redirectionTable[j] = token;
 //                printf("direction symbol is %s\n", token);
                 j = j + 1;
-                token = strtok(NULL, space);
+                token = strtok(NULL, " \t\n");
                 redirectionTable[j] = token;
                 j = j + 1;
 //                printf("file name is %s\n", token);
@@ -126,4 +127,42 @@ void redir(char ** redirectionTable, int redTabLength){
             close(append);
         }
     }
+}
+
+char * addspace(char * line, long length){
+    int flag = 0;
+    for(long i = 0; i < length - 1; i++){
+        char tmp = line[i];
+//        printf("ptr isis %c\n", tmp);
+        if(tmp == '>' || tmp == '<' || strcmp(&tmp, ">>") == 0){
+//            printf("jere\n");
+            if(line[i+1] == '>'){
+//                printf("jjjjere\n");
+                flag = 1;
+            }
+            if(!flag){
+                for (long j = length + 16; j >= i; j--) {
+                    line[j + 1] = line[j];
+                }
+                line[i] = ' ';
+                for (long j = length + 16; j >= i + 1; j--) {
+                    line[j + 1] = line[j];
+                }
+                line[i + 2] = ' ';
+                i = i + 1;
+            }
+            else{
+                for (long j = length + 16; j >= i + 1; j--) {
+                    line[j + 1] = line[j];
+                }
+                line[i] = ' ';
+                for (long j = length + 16; j >= i + 2; j--) {
+                    line[j + 1] = line[j];
+                }
+                line[i + 3] = ' ';
+                i = i + 2;
+            }
+        }
+    }
+    return line;
 }

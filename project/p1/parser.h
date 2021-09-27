@@ -22,5 +22,7 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL);
 
 void redir(char ** redirectionTable, int redTabLength);
 
+char * addspace(char * line, long length);
+
 #endif //VE482_2021FA_PARSER_H
 

@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -std=gnu11 -O2 -Wall -Wextra -Werror -pedantic -Wno-unused-result -Wconversion
+CFLAGS = -std=gnu11 -O2 -Wall -Wextra -pedantic -Wconversion
 MUMSH_SRC = *.c
 MUMSH = mumsh 
 MUMSHMC_FLAGS = -fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined -fsanitize=integer

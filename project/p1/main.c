@@ -20,7 +20,7 @@ int main(){
     char * line = l;
     size_t size = 1024;
     char **line_pointer = &line;
-//    size_t length = 0;
+    long length = 0;
 
     //pid for executor
     pid_t pid;
@@ -31,7 +31,12 @@ int main(){
 //    }
 //    fgets(line, tmp, stdin);
 //    fgets(line, tmp, stdin);
-    getline(line_pointer, &size, stdin);
+    length = getline(line_pointer, &size, stdin);
+//    printf("line is %s\n", line);
+//    printf("lengt is %zu\n", length);
+    line = addspace(line, length);
+//    printf("line is %s\n", line);
+//    printf("lengt is %zu\n", length);
     do{
         //just exit special case
         //TODO: wrong waiting prompt
@@ -51,10 +56,14 @@ int main(){
 //            int commandLength;
             int redTabLength;
             //TODO: weird behaviour when add two parameters
-            //TODO: free up the space
+            //TODO: free up the
+            line = addspace(line, length);
+//            printf("line is %s\n", line);
             parsTab = returnCommandTable(line_pointer, 1, 0);
-            char ** commandTable = parsTab->commandTable;
-            char ** redirectionTable = parsTab->redirectionTable;
+            char ** commandTable = {0};
+            commandTable = parsTab->commandTable;
+            char ** redirectionTable = {0};
+            redirectionTable = parsTab->redirectionTable;
 //            commandLength = parsTab->commandLength;
             redTabLength = parsTab->redTabLength;
 //            printf("the command comes out is %i\n", parsTab->commandLength);
@@ -76,7 +85,7 @@ int main(){
                 if(redirectionTable[0]){
                     redir(redirectionTable, redTabLength);
                 }
-//                printf("now command tab is %s\n", commandTable[0]);
+                printf("now command tab is %s\n", commandTable[0]);
 //                printf("HC: hello from child\n");
                 if(execvp(commandTable[0], commandTable) == -1){
                     printf("false\n");
@@ -85,6 +94,10 @@ int main(){
 //                printf("now command tab is %s\n", commandTable[0]);
 //                execvp(commandTable[0], commandTable);
 //                printf("HC: bye from child\n");
+//                free(parsTab->commandTable);
+//                free(parsTab->redirectionTable);
+//                free(parsTab);
+//                line = " ";
 //                free(parsTab->commandTable);
 //                free(parsTab->redirectionTable);
 //                free(parsTab);
@@ -97,11 +110,12 @@ int main(){
                     waitpid(pid, &status, WUNTRACED);
                 } while (!WIFEXITED(status) && !WIFSIGNALED(status));
             }
-//            execvp(commandTable[0], commandTable);
-//            free(parsTab->commandTable);
-//            free(parsTab->redirectionTable);
-//            free(parsTab);
+////            execvp(commandTable[0], commandTable);
+////            free(parsTab->commandTable);
+////            free(parsTab->redirectionTable);
+////            free(parsTab);
         }
+//        *line_pointer = "sss";
 //        free(line_pointer);
-    }while(notExit && (getline(line_pointer, &size, stdin) >=0));
+    }while(notExit && ((length = getline(line_pointer, &size, stdin)) >=0));
 }
