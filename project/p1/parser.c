@@ -6,6 +6,10 @@
 
 parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
 //    command comm;
+
+    int i = cL;
+    int j = rL;
+
     parserTable *parserTab = malloc(sizeof(char **) * 1024);
 
     //TODO: can i shrink the size to write size?
@@ -19,10 +23,38 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
     *line_pointer = strtok(*line_pointer, "\n'?");
 //    printf("line isis %s\n", *line_pointer);
     token = strtok(*line_pointer, " \t\n");
-    commandTable[0] = token;
+    if(strcmp(token,">") == 0){
+        redirectionTable[j] = token;
+        j = j + 1;
+        token = strtok(NULL, " \t\n");
+        redirectionTable[j] = token;
+        j = j + 1;
+        printf("here");
+    }
+    else if (strcmp(token, ">>") == 0){
+        redirectionTable[j] = token;
+        j = j + 1;
+        token = strtok(NULL, " \t\n");
+        redirectionTable[j] = token;
+        j = j + 1;
+    }
+    else if (strcmp(token, "<") == 0){
+        //TODO: what it ">1.txt" with no space
+        redirectionTable[j] = token;
+        j = j + 1;
+        token = strtok(NULL, " \t\n");
+        redirectionTable[j] = token;
+        j = j + 1;
+        int input = 0;
+        if ((input = open(token, O_RDONLY)) < 0) {
+            fprintf(stderr, "error\n");
+        }
+    }
+    else{
+        commandTable[0] = token;
+        i = i + 1;
+    }
 //    printf("command is %s", token);
-    int i = cL;
-    int j = rL;
     while(token != NULL){
         token = strtok(NULL, " \t\n");
         //TODO: why double check token == null?

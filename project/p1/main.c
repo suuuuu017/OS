@@ -62,7 +62,7 @@ int main(){
                 //TODO: free up the
                 line = addspace(line, length);
 //            printf("line is %s\n", line);
-                parsTab = returnCommandTable(line_pointer, 1, 0);
+                parsTab = returnCommandTable(line_pointer, 0, 0);
                 char ** commandTable = {0};
                 commandTable = parsTab->commandTable;
                 char ** redirectionTable = {0};
