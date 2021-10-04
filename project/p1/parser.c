@@ -69,10 +69,6 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
                 token = strtok(NULL, " \t\n");
                 redirectionTable[j] = token;
                 j = j + 1;
-//                printf("file name is here %s\n", token);
-//                int overwrite = creat(token, 0644);
-//                dup2(overwrite, STDOUT_FILENO);
-//                close(overwrite);
             }
 //                printf("i is %i\n", i);
             else if (strcmp(token, ">>") == 0){
@@ -85,9 +81,6 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
                 j = j + 1;
 //                printf("file name is %s\n", token);
 //                //TODO: is this open correct and the 0644
-//                int append = open(token, O_CREAT | O_RDWR | O_APPEND, 0644);
-//                dup2(append, STDOUT_FILENO);
-//                close(append);
             }
             else if (strcmp(token, "<") == 0){
                 //TODO: what it ">1.txt" with no space
@@ -103,10 +96,6 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
                 if ((input = open(token, O_RDONLY)) < 0) {
                     fprintf(stderr, "error\n");
                 }
-//                input = open(token, O_RDONLY, 0);
-//                printf("input code is %i\n", input);
-//                dup2(input, STDIN_FILENO);
-//                close(input);
             }
             else{
 //                printf("argument is %s, i is %i\n", token, i);

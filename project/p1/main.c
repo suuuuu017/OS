@@ -61,7 +61,6 @@ int main(){
                 //TODO: weird behaviour when add two parameters
                 //TODO: free up the
                 line = addspace(line, length);
-//            printf("line is %s\n", line);
                 parsTab = returnCommandTable(line_pointer, 0, 0);
                 char ** commandTable = {0};
                 commandTable = parsTab->commandTable;
@@ -69,56 +68,25 @@ int main(){
                 redirectionTable = parsTab->redirectionTable;
                 commandLength = parsTab->commandLength;
                 redTabLength = parsTab->redTabLength;
-//                printf("the command comes out is %i\n", parsTab->commandLength);
-//            printf("the redir comes out is %i\n", parsTab->redTabLength);
                 //TODO: weird processing order when input redirection is involved
-//            int status = 0;
-//            pid = fork();
-//            if (pid == 0) {
                 if (redirectionTable[0]) {
                     redir(redirectionTable, redTabLength);
                 }
 //                printf("now command tab is %s\n", commandTable[0]);
-//                printf("HC: hello from child\n");
                 char *argv[1024] = {0};
                 for(int tmp = 0; tmp < commandLength; tmp++){
                     argv[tmp] = commandTable[tmp];
                 }
-//                argv[1] = "-la";
-//                argv[2] = NULL;
 
                 if (execvp(commandTable[0], argv) == -1) {
                     printf("false\n");
                 }
-//                if (execvp(commandTable[0], commandTable) == -1) {
-//                    printf("false\n");
-//                }
-//                printf("pid isis %i\n", pid);
-//                printf("now command tab is %s\n", commandTable[0]);
-//                execvp(commandTable[0], commandTable);
-//                printf("HC: bye from child\n");
-//                free(parsTab->commandTable);
-//                free(parsTab->redirectionTable);
-//                free(parsTab);
-//                line = " ";
-//                free(parsTab->commandTable);
-//                free(parsTab->redirectionTable);
-//                free(parsTab);
             }
             else {
-//                printf("HP: hello from parent, pid is %i\n", pid);
-//                wait(&status);
-//                printf("CT: child has terminated\n");
                 do {
                     waitpid(pid, &status, WUNTRACED);
                 } while (!WIFEXITED(status) && !WIFSIGNALED(status));
             }
-////            execvp(commandTable[0], commandTable);
-////            free(parsTab->commandTable);
-////            free(parsTab->redirectionTable);
-////            free(parsTab);
         }
-//        *line_pointer = "sss";
-//        free(line_pointer);
     }while(notExit && ((length = getline(line_pointer, &size, stdin)) >=0));
 }
