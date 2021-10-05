@@ -20,6 +20,8 @@ int main(){
     char **line_pointer = &line;
     long length = 0;
 
+    signal(SIGINT, SIG_IGN);
+
     //pid for executor
 //    pid_t pid = 0;
 
@@ -29,35 +31,36 @@ int main(){
 //    }
 //    fgets(line, tmp, stdin);
 //    fgets(line, tmp, stdin);
-    length = getline(line_pointer, &size, stdin);
+//    length = getline(line_pointer, &size, stdin);
 //    printf("line is %s\n", line);
 //    printf("lengt is %zu\n", length);
-    line = addspace(line, length);
-//    printf("line is %s\n", line);
-//    printf("lengt is %zu\n", length);
-    do{
-        signal(SIGINT, SIG_IGN);
+//    line = addspace(line, length);
 
+//    printf("line is %s\n", line);
+//    printf("lengt is %zu\n", length);
+    while(notExit){
         //just exit special case
         //TODO: wrong waiting prompt
+//        printf(" length is %i\n", length);
         printf("mumsh $ ");
         fflush(stdout);
 //        getline(line_pointer, &size, stdin);
 //        printf("line is %s", line);
-
+        length = getline(line_pointer, &size, stdin);
+        if (length == 1) {
+            continue;
+        }
         //TODO: does this exit have to be followed by a new line?
-        if (strcmp(line, "exit\n") == 0){
+        if (strcmp(line, "exit\n") == 0) {
             printf("exit\n");
             notExit = 0;
             return 0;
-        }
-        else if(length == -1){
+        } else if (length == -1) {
             // TODO: if ls -a then enter then ^D, it prints nothing
             printf("exit\n");
-            notExit = 0;
+            notExit = 1;
             return 0;
-        }
-        else {
+        } else {
 //            int status = 0;
 //            pid = fork();
 //            if (pid == 0) {
@@ -106,5 +109,6 @@ int main(){
 //                } while (!WIFEXITED(status) && !WIFSIGNALED(status));
 //            }
         }
-    }while(notExit && ((length = getline(line_pointer, &size, stdin)) >=0));
+    }
+//    }while(notExit && ((length = getline(line_pointer, &size, stdin))));
 }
