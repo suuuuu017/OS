@@ -1,17 +1,12 @@
 //
 // Created by ShiHe Wang on 2021/9/17.
 //
-
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
-
 #include "main.h"
-#include "parser.h"
-#include "execute.h"
+
+void sigint_handler() {
+//    printf("Caught SIGINT %i\n", signo);
+}
+
 
 
 int main(){
@@ -26,7 +21,7 @@ int main(){
     long length = 0;
 
     //pid for executor
-    pid_t pid = 0;
+//    pid_t pid = 0;
 
 //    int tmp = 1024;
 //    while(fgets(line, tmp, stdin)){
@@ -41,6 +36,8 @@ int main(){
 //    printf("line is %s\n", line);
 //    printf("lengt is %zu\n", length);
     do{
+        signal(SIGINT, SIG_IGN);
+
         //just exit special case
         //TODO: wrong waiting prompt
         printf("mumsh $ ");
@@ -61,7 +58,7 @@ int main(){
             return 0;
         }
         else {
-            int status = 0;
+//            int status = 0;
 //            pid = fork();
 //            if (pid == 0) {
             parserTable *parsTab;
