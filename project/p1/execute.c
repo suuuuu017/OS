@@ -121,6 +121,7 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength){
 //            printf("current commmmmand is %s\n", cmd[0]);
 //            execvp(cl[i][0], cl[i]);
 //            printf("hi from child\n");
+            signal(SIGINT, SIG_DFL);
             execvp(cmd[0], cmd);
             _exit(1);
         }
@@ -130,5 +131,6 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength){
     dup2(preout, 1);
     close(prein);
     close(preout);
+
     waitpid(pid, &status, WUNTRACED);
 }
