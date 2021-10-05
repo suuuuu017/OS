@@ -54,6 +54,12 @@ int main(){
             notExit = 0;
             return 0;
         }
+        else if(length == -1){
+            // TODO: if ls -a then enter then ^D, it prints nothing
+            printf("exit\n");
+            notExit = 0;
+            return 0;
+        }
         else {
             int status = 0;
 //            pid = fork();
