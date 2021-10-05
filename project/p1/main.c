@@ -4,6 +4,7 @@
 
 #include "main.h"
 #include "parser.h"
+#include "execute.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,7 +24,7 @@ int main(){
     long length = 0;
 
     //pid for executor
-    pid_t pid;
+    pid_t pid = 0;
 
 //    int tmp = 1024;
 //    while(fgets(line, tmp, stdin)){
@@ -53,40 +54,52 @@ int main(){
         }
         else {
             int status = 0;
-            pid = fork();
-            if (pid == 0) {
-                parserTable *parsTab;
-                int commandLength;
-                int redTabLength;
-                //TODO: weird behaviour when add two parameters
-                //TODO: free up the
-                line = addspace(line, length);
-                parsTab = returnCommandTable(line_pointer, 0, 0);
-                char ** commandTable = {0};
-                commandTable = parsTab->commandTable;
-                char ** redirectionTable = {0};
-                redirectionTable = parsTab->redirectionTable;
-                commandLength = parsTab->commandLength;
-                redTabLength = parsTab->redTabLength;
-                //TODO: weird processing order when input redirection is involved
-                if (redirectionTable[0]) {
-                    redir(redirectionTable, redTabLength);
-                }
+//            pid = fork();
+//            if (pid == 0) {
+            parserTable *parsTab;
+            int commandLength;
+            int redTabLength;
+            //TODO: weird behaviour when add two parameters
+            //TODO: free up the
+            line = addspace(line, length);
+            parsTab = returnCommandTable(line_pointer, 0, 0);
+            char **commandTable = {0};
+            commandTable = parsTab->commandTable;
+            char **redirectionTable = {0};
+            redirectionTable = parsTab->redirectionTable;
+            commandLength = parsTab->commandLength;
+            redTabLength = parsTab->redTabLength;
+            //TODO: weird processing order when input redirection is involved
+            if (redirectionTable[0]) {
+                redir(redirectionTable, redTabLength);
+            }
 //                printf("now command tab is %s\n", commandTable[0]);
-                char *argv[1024] = {0};
-                for(int tmp = 0; tmp < commandLength; tmp++){
-                    argv[tmp] = commandTable[tmp];
+            char *argv[1024] = {0};
+            int cmdNum = 1;
+            for (int tmp = 0; tmp < commandLength; tmp++) {
+                if (strcmp(commandTable[tmp], "|") == 0) {
+                    cmdNum = cmdNum + 1;
                 }
-
-                if (execvp(commandTable[0], argv) == -1) {
-                    printf("false\n");
-                }
+//                printf("arg is %s\n", commandTable[tmp]);
+                argv[tmp] = commandTable[tmp];
             }
-            else {
-                do {
-                    waitpid(pid, &status, WUNTRACED);
-                } while (!WIFEXITED(status) && !WIFSIGNALED(status));
-            }
+//            printf("cmdnum is %i\n", cmdNum);
+//            printf("cmdLength is %i\n", commandLength);
+            //TODO: error if empty argv
+//            sortCommand(cmdNum, argv, commandLength);
+            pipeCmd(cmdNum, argv, commandLength);
+//            pid = fork();
+//            if (pid == 0) {
+//                pipeCmd(cmdNum, argv, commandLength, pid);
+//                if (execvp(argv[0], argv) == -1) {
+//                    printf("false\n");
+//                }
+//            }
+//            else {
+//                do {
+//                    waitpid(pid, &status, WUNTRACED);
+//                } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+//            }
         }
     }while(notExit && ((length = getline(line_pointer, &size, stdin)) >=0));
 }
