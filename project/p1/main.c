@@ -2,15 +2,17 @@
 // Created by ShiHe Wang on 2021/9/17.
 //
 
-#include "main.h"
-#include "parser.h"
-#include "execute.h"
-
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
+
+#include "main.h"
+#include "parser.h"
+#include "execute.h"
+
 
 int main(){
     //exit flag
