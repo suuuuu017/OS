@@ -39,7 +39,7 @@ void sortCommand(int cmdNum, char * argv[], int commandLength, char ** cl[1024])
 }
 
 
-void pipeCmd(int cmdNum, char * argv[], int commandLength){
+void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTable, int redTabLength){
 
 //    char * cmd1[2] = {0};
 //    cmd1[0] = "ls";
@@ -54,10 +54,32 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength){
 //    char ** cll[2];
 //    cll[0] = cmd1;
 //    cll[1] = cmd2;
+    char *redirInFn;
+    char *redirOutCreateFn;
+    char *redirOutAppendFn;
+    int redirIn = 0;
+    int redirOutCreate = 0;
+    int redirOutAppend = 0;
+
+    if (redirectionTable[0]) {
+        for (int k = 0; k < redTabLength; k++) {
+            if (strcmp(redirectionTable[k], "<") == 0) {
+                k = k + 1;
+                redirInFn = redirectionTable[k];
+                redirIn = 1;
+            } else if (strcmp(redirectionTable[k], ">") == 0) {
+                k = k + 1;
+                redirOutCreateFn = redirectionTable[k];
+                redirOutCreate = 1;
+            } else if (strcmp(redirectionTable[k], ">>") == 0) {
+                k = k + 1;
+                redirOutAppendFn = redirectionTable[k];
+                redirOutAppend = 1;
+            }
+        }
+    }
 
     int status = 0;
-    int redirIn = 0;
-    int redirOut = 0;
 
     int prein = dup(0);
     int preout = dup(1);
@@ -65,7 +87,7 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength){
     int fdin;
 
     if(redirIn){
-
+        fdin = open(redirInFn, O_RDONLY);
     }
     else{
         fdin = dup(prein);
@@ -81,7 +103,11 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength){
         dup2(fdin, 0);
         close(fdin);
         if (i == cmdNum - 1) {
-            if (redirOut) {
+            if (redirOutCreate) {
+                fdout = creat(redirOutCreateFn, 0644);
+            }
+            else if (redirOutAppend){
+                fdout = open(redirOutAppendFn, O_CREAT | O_RDWR | O_APPEND, 0644);
             }
             else {
                 fdout = dup(preout);
@@ -132,6 +158,5 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength){
     dup2(preout, 1);
     close(prein);
     close(preout);
-
     waitpid(pid, &status, WUNTRACED);
 }

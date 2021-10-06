@@ -12,6 +12,9 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
 
     parserTable *parserTab = malloc(sizeof(char **) * 1024);
 
+    parserTab->redirIn = 0;
+    parserTab->redirOut = 0;
+
     //TODO: can i shrink the size to write size?
 
     char ** commandTable = malloc(sizeof(char *) * 1024);
@@ -24,6 +27,7 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
 //    printf("line isis %s\n", *line_pointer);
     token = strtok(*line_pointer, " \t\n");
     if(strcmp(token,">") == 0){
+        parserTab->redirOut = 1;
         redirectionTable[j] = token;
         j = j + 1;
         token = strtok(NULL, " \t\n");
@@ -32,6 +36,7 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
         printf("here");
     }
     else if (strcmp(token, ">>") == 0){
+        parserTab->redirOut = 1;
         redirectionTable[j] = token;
         j = j + 1;
         token = strtok(NULL, " \t\n");
@@ -40,6 +45,7 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
     }
     else if (strcmp(token, "<") == 0){
         //TODO: what it ">1.txt" with no space
+        parserTab->redirIn = 1;
         redirectionTable[j] = token;
         j = j + 1;
         token = strtok(NULL, " \t\n");
@@ -63,6 +69,7 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
             if (strcmp(token, ">") == 0){
                 //TODO: what it ">1.txt" with no space
                 //TODO: wrong writing template
+                parserTab->redirOut = 1;
                 redirectionTable[j] = token;
 //                printf("direction symbol is %s\n", token);
                 j = j + 1;
@@ -73,6 +80,7 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
 //                printf("i is %i\n", i);
             else if (strcmp(token, ">>") == 0){
                 //TODO: what it ">1.txt" with no space
+                parserTab->redirOut = 1;
                 redirectionTable[j] = token;
 //                printf("direction symbol is %s\n", token);
                 j = j + 1;
@@ -84,6 +92,7 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
             }
             else if (strcmp(token, "<") == 0){
                 //TODO: what it ">1.txt" with no space
+                parserTab->redirIn = 1;
                 redirectionTable[j] = token;
 //                printf("direction symbol is %s\n", token);
                 j = j + 1;

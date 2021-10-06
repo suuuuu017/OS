@@ -16,6 +16,8 @@ typedef struct{
     char ** redirectionTable;
     int commandLength;
     int redTabLength;
+    int redirIn;
+    int redirOut;
 } parserTable;
 
 parserTable * returnCommandTable(char **line_pointer, int cL, int rL);

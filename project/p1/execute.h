@@ -11,6 +11,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 
 typedef struct{
     char * command[1024];
@@ -22,7 +23,7 @@ typedef struct{
 
 void sortCommand(int cmdNum, char * argv[], int commandLength, char ** cl[1024]);
 
-void pipeCmd(int cmdNum, char * argv[], int commandLength);
+void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTable, int redTabLength);
 
 
 #endif //VE482_2021FA_EXECUTE_H

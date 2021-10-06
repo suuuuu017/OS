@@ -79,7 +79,7 @@ int main(){
             redTabLength = parsTab->redTabLength;
             //TODO: weird processing order when input redirection is involved
             if (redirectionTable[0]) {
-                redir(redirectionTable, redTabLength);
+//                redir(redirectionTable, redTabLength);
             }
 //                printf("now command tab is %s\n", commandTable[0]);
             char *argv[1024] = {0};
@@ -95,7 +95,7 @@ int main(){
 //            printf("cmdLength is %i\n", commandLength);
             //TODO: error if empty argv
 //            sortCommand(cmdNum, argv, commandLength);
-            pipeCmd(cmdNum, argv, commandLength);
+            pipeCmd(cmdNum, argv, commandLength, redirectionTable, redTabLength);
 //            pid = fork();
 //            if (pid == 0) {
 //                pipeCmd(cmdNum, argv, commandLength, pid);
