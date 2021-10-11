@@ -104,6 +104,21 @@ int main(){
                     continue;
                 }
             }
+//
+//            if(strcmp(commandTable[0], "pwd") == 0){
+//                if (redirectionTable[0]) {
+//                    redir(redirectionTable, redTabLength);
+//                }
+//                char pwd[1024];
+//                if(getcwd(pwd, sizeof(pwd)) == NULL){
+//                    perror("pwd error");
+//                }
+//                else{
+//                    printf("%s\n", pwd);
+//                }
+//                dup(1);
+//                continue;
+//            }
 
 //                printf("now command tab is %s\n", commandTable[0]);
             char *argv[1024] = {0};

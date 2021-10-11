@@ -153,7 +153,18 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTa
 //            printf("hi from child\n");
 //            printf("%s %s \n",cmd[0], cmd[1]);
             signal(SIGINT, SIG_DFL);
-            execvp(cmd[0], cmd);
+            if(strcmp(cmd[0], "pwd") == 0){
+                char pwd[1024];
+                if(getcwd(pwd, sizeof(pwd)) == NULL){
+                    perror("pwd error");
+                }
+                else{
+                    printf("%s\n", pwd);
+                }
+            }
+            else{
+                execvp(cmd[0], cmd);
+            }
             _exit(1);
         }
     }
