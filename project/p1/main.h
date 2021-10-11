@@ -11,6 +11,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <setjmp.h>
 
 #include "parser.h"
 #include "execute.h"

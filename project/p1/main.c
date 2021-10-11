@@ -3,11 +3,15 @@
 //
 #include "main.h"
 
+static sigjmp_buf env;
+static volatile sig_atomic_t jump_active = 0;
+
 void sigint_handler() {
-//    printf("Caught SIGINT %i\n", signo);
+    if (!jump_active) {
+        return;
+    }
+    siglongjmp(env, 42);
 }
-
-
 
 int main(){
     //exit flag
@@ -20,8 +24,11 @@ int main(){
     char **line_pointer = &line;
     long length = 0;
 
-    signal(SIGINT, SIG_IGN);
-
+    struct sigaction s;
+    s.sa_handler = sigint_handler;
+    sigemptyset(&s.sa_mask);
+    s.sa_flags = SA_RESTART;
+    sigaction(SIGINT, &s, NULL);
     //pid for executor
 //    pid_t pid = 0;
 
@@ -42,10 +49,17 @@ int main(){
         //just exit special case
         //TODO: wrong waiting prompt
 //        printf(" length is %i\n", length);
+//        signal(SIGINT, sigint_handler);
+        if (sigsetjmp(env, 1) == 42) {
+//            printf("Restart.\n");
+            printf("\n");
+        }
+        jump_active = 1;
         printf("mumsh $ ");
         fflush(stdout);
 //        getline(line_pointer, &size, stdin);
 //        printf("line is %s", line);
+
         length = getline(line_pointer, &size, stdin);
         if (length == 1) {
             continue;
@@ -55,12 +69,14 @@ int main(){
             printf("exit\n");
             notExit = 0;
             return 0;
-        } else if (length == -1) {
+        }
+        else if (length == -1) {
             // TODO: if ls -a then enter then ^D, it prints nothing
             printf("exit\n");
             notExit = 1;
             return 0;
-        } else {
+        }
+        else {
 //            int status = 0;
 //            pid = fork();
 //            if (pid == 0) {
@@ -77,6 +93,7 @@ int main(){
             redirectionTable = parsTab->redirectionTable;
             commandLength = parsTab->commandLength;
             redTabLength = parsTab->redTabLength;
+
             //TODO: weird processing order when input redirection is involved
             if (redirectionTable[0]) {
 //                redir(redirectionTable, redTabLength);
