@@ -6,10 +6,37 @@
 //TODO: fix the copying of long jump
 static sigjmp_buf env;
 static volatile sig_atomic_t jump_active = 0;
+char **commandTable = {0};
+char **redirectionTable = {0};
+parserTable *parsTab;
 
 void sigint_handler() {
     if (!jump_active) {
+        if(commandTable){
+            free(commandTable);
+            commandTable = NULL;
+        }
+        if(redirectionTable){
+            free(redirectionTable);
+            redirectionTable = NULL;
+        }
+        if(parsTab){
+            free(parsTab);
+            parsTab = NULL;
+        }
         return;
+    }
+    if(commandTable){
+        free(commandTable);
+        commandTable = NULL;
+    }
+    if(redirectionTable){
+        free(redirectionTable);
+        redirectionTable = NULL;
+    }
+    if(parsTab){
+        free(parsTab);
+        parsTab = NULL;
     }
     siglongjmp(env, 42);
 }
@@ -52,6 +79,7 @@ int main(){
 //        printf(" length is %i\n", length);
 //        signal(SIGINT, sigint_handler);
         if (sigsetjmp(env, 1) == 42) {
+//            printf("hre $ ");
         }
         jump_active = 1;
         printf("mumsh $ ");
@@ -79,16 +107,13 @@ int main(){
 //            int status = 0;
 //            pid = fork();
 //            if (pid == 0) {
-            parserTable *parsTab;
             int commandLength;
             int redTabLength;
             //TODO: weird behaviour when add two parameters
             //TODO: free up the
             line = addspace(line, length);
             parsTab = returnCommandTable(line_pointer, 0, 0);
-            char **commandTable = {0};
             commandTable = parsTab->commandTable;
-            char **redirectionTable = {0};
             redirectionTable = parsTab->redirectionTable;
             commandLength = parsTab->commandLength;
             redTabLength = parsTab->redTabLength;
@@ -101,10 +126,13 @@ int main(){
             if(commandLength == 2){
                 if(strcmp(commandTable[0], "cd") == 0){
                     chdir(commandTable[1]);
+                    free(commandTable);
+                    free(redirectionTable);
+                    free(parsTab);
                     continue;
                 }
             }
-//
+
 //            if(strcmp(commandTable[0], "pwd") == 0){
 //                if (redirectionTable[0]) {
 //                    redir(redirectionTable, redTabLength);
@@ -135,6 +163,18 @@ int main(){
             //TODO: error if empty argv
 //            sortCommand(cmdNum, argv, commandLength);
             pipeCmd(cmdNum, argv, commandLength, redirectionTable, redTabLength);
+            if(commandTable){
+                free(commandTable);
+                commandTable = NULL;
+            }
+            if(redirectionTable){
+                free(redirectionTable);
+                redirectionTable = NULL;
+            }
+            if(parsTab){
+                free(parsTab);
+                parsTab = NULL;
+            }
 //            pid = fork();
 //            if (pid == 0) {
 //                pipeCmd(cmdNum, argv, commandLength, pid);
