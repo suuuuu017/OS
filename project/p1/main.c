@@ -23,12 +23,13 @@ int main(){
     size_t size = 1024;
     char **line_pointer = &line;
     long length = 0;
+    signal(SIGINT, sigint_handler);
 
-    struct sigaction s;
-    s.sa_handler = sigint_handler;
-    sigemptyset(&s.sa_mask);
-    s.sa_flags = SA_RESTART;
-    sigaction(SIGINT, &s, NULL);
+//    struct sigaction s;
+//    s.sa_handler = sigint_handler;
+//    sigemptyset(&s.sa_mask);
+//    s.sa_flags = SA_RESTART;
+//    sigaction(SIGINT, &s, NULL);
     //pid for executor
 //    pid_t pid = 0;
 
@@ -52,7 +53,6 @@ int main(){
 //        signal(SIGINT, sigint_handler);
         if (sigsetjmp(env, 1) == 42) {
 //            printf("Restart.\n");
-            printf("\n");
         }
         jump_active = 1;
         printf("mumsh $ ");

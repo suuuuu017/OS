@@ -98,6 +98,8 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTa
     int j = 0;
     int argvC = 0;
 
+    int pipeid[1024];
+
     for(int i = 0; i < cmdNum; i++) {
         j = 0;
         dup2(fdin, 0);
@@ -135,8 +137,10 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTa
             }
             argvC = argvC + 1;
         }
+//        printf("%s %s \n",cmd[0], cmd[1]);
 
         pid = fork();
+        pipeid[i] = pid;
         if (pid == 0) {
 //            if(i == 0){
 //                execvp(cmd1[0], cmd1);
@@ -158,5 +162,8 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTa
     dup2(preout, 1);
     close(prein);
     close(preout);
-    waitpid(pid, &status, WUNTRACED);
+    for(int i = 0; i < cmdNum; i++) {
+        waitpid(pipeid[i], &status, WUNTRACED);
+    }
+//    waitpid(pid, &status, WUNTRACED);
 }
