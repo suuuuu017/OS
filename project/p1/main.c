@@ -3,6 +3,7 @@
 //
 #include "main.h"
 
+//TODO: fix the copying of long jump
 static sigjmp_buf env;
 static volatile sig_atomic_t jump_active = 0;
 
@@ -24,7 +25,6 @@ int main(){
     char **line_pointer = &line;
     long length = 0;
     signal(SIGINT, sigint_handler);
-
 //    struct sigaction s;
 //    s.sa_handler = sigint_handler;
 //    sigemptyset(&s.sa_mask);
@@ -52,7 +52,6 @@ int main(){
 //        printf(" length is %i\n", length);
 //        signal(SIGINT, sigint_handler);
         if (sigsetjmp(env, 1) == 42) {
-//            printf("Restart.\n");
         }
         jump_active = 1;
         printf("mumsh $ ");
@@ -98,6 +97,14 @@ int main(){
             if (redirectionTable[0]) {
 //                redir(redirectionTable, redTabLength);
             }
+
+            if(commandLength == 2){
+                if(strcmp(commandTable[0], "cd") == 0){
+                    chdir(commandTable[1]);
+                    continue;
+                }
+            }
+
 //                printf("now command tab is %s\n", commandTable[0]);
             char *argv[1024] = {0};
             int cmdNum = 1;
