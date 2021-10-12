@@ -10,10 +10,17 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
     int i = cL;
     int j = rL;
 
+    int cmd = 0;
+
     parserTable *parserTab = malloc(sizeof(char **) * 1024);
 
     parserTab->redirIn = 0;
-    parserTab->redirOut = 0;
+    parserTab->redirOutCreate = 0;
+    parserTab->redirOutAppend = 0;
+
+    parserTab->redirInH = 0;
+    parserTab->redirAppendH = 0;
+    parserTab->redirCreateH = 0;
 
     //TODO: can i shrink the size to write size?
 
@@ -27,21 +34,23 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
 //    printf("line isis %s\n", *line_pointer);
     token = strtok(*line_pointer, " \t\n");
     if(strcmp(token,">") == 0){
-        parserTab->redirOut = 1;
+        parserTab->redirOutCreate = 1;
         redirectionTable[j] = token;
         j = j + 1;
         token = strtok(NULL, " \t\n");
         redirectionTable[j] = token;
         j = j + 1;
+        parserTab->redirCreateH = cmd;
 //        printf("here");
     }
     else if (strcmp(token, ">>") == 0){
-        parserTab->redirOut = 1;
+        parserTab->redirOutAppend = 1;
         redirectionTable[j] = token;
         j = j + 1;
         token = strtok(NULL, " \t\n");
         redirectionTable[j] = token;
         j = j + 1;
+        parserTab->redirAppendH = cmd;
     }
     else if (strcmp(token, "<") == 0){
         //TODO: what it ">1.txt" with no space
@@ -55,10 +64,14 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
 //        if ((input = open(token, O_RDONLY)) < 0) {
 //            fprintf(stderr, "error\n");
 //        }
+        parserTab->redirInH = cmd;
     }
     else{
         commandTable[0] = token;
         i = i + 1;
+        if(strcmp(token, "|") == 0){
+            cmd = cmd + 1;
+        }
     }
 //    printf("command is %s", token);
     while(token != NULL){
@@ -69,18 +82,19 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
             if (strcmp(token, ">") == 0){
                 //TODO: what it ">1.txt" with no space
                 //TODO: wrong writing template
-                parserTab->redirOut = 1;
+                parserTab->redirOutCreate = 1;
                 redirectionTable[j] = token;
 //                printf("direction symbol is %s\n", token);
                 j = j + 1;
                 token = strtok(NULL, " \t\n");
                 redirectionTable[j] = token;
                 j = j + 1;
+                parserTab->redirCreateH = cmd;
             }
 //                printf("i is %i\n", i);
             else if (strcmp(token, ">>") == 0){
                 //TODO: what it ">1.txt" with no space
-                parserTab->redirOut = 1;
+                parserTab->redirOutAppend = 1;
                 redirectionTable[j] = token;
 //                printf("direction symbol is %s\n", token);
                 j = j + 1;
@@ -89,6 +103,7 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
                 j = j + 1;
 //                printf("file name is %s\n", token);
 //                //TODO: is this open correct and the 0644
+                parserTab->redirAppendH = cmd;
             }
             else if (strcmp(token, "<") == 0){
                 //TODO: what it ">1.txt" with no space
@@ -105,11 +120,15 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
 //                if ((input = open(token, O_RDONLY)) < 0) {
 //                    fprintf(stderr, "error\n");
 //                }
+                parserTab->redirInH = cmd;
             }
             else{
 //                printf("argument is %s, i is %i\n", token, i);
                 commandTable[i] = token;
                 i = i + 1;
+                if(strcmp(token, "|") == 0){
+                    cmd = cmd + 1;
+                }
             }
         }
     }

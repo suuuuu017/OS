@@ -118,6 +118,10 @@ int main(){
             commandLength = parsTab->commandLength;
             redTabLength = parsTab->redTabLength;
 
+            int redirInH = parsTab->redirInH;
+            int redirCreateH = parsTab->redirCreateH;
+            int redirAppendH = parsTab->redirAppendH;
+
             if(commandLength == 0){
                 fprintf(stderr, "error: missing program\n");
                 free(commandTable);
@@ -182,6 +186,27 @@ int main(){
                 free(redirectionTable);
                 free(parsTab);
                 continue;
+            }
+
+            if(cmdNum > 1){
+//                printf("%i\n", redirInH);
+                if(redirInH > 0 && parsTab->redirIn){
+                    fprintf(stderr, "error: duplicated input redirection\n");
+                    free(commandTable);
+                    free(redirectionTable);
+                    free(parsTab);
+                    continue;
+                }
+                else if(((redirAppendH < cmdNum - 1) && parsTab->redirOutAppend) ||
+                        ((redirCreateH < cmdNum - 1) && parsTab->redirOutCreate)){
+//                    printf("%i\n", redirAppendH);
+//                    printf("%i\n", redirCreateH);
+                    fprintf(stderr, "error: duplicated output redirection\n");
+                    free(commandTable);
+                    free(redirectionTable);
+                    free(parsTab);
+                    continue;
+                }
             }
 //            printf("cmdnum is %i\n", cmdNum);
 //            printf("cmdLength is %i\n", commandLength);

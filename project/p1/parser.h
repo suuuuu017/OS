@@ -18,7 +18,11 @@ typedef struct{
     int commandLength;
     int redTabLength;
     int redirIn;
-    int redirOut;
+    int redirOutCreate;
+    int redirOutAppend;
+    int redirInH;
+    int redirCreateH;
+    int redirAppendH;
 } parserTable;
 
 parserTable * returnCommandTable(char **line_pointer, int cL, int rL);
