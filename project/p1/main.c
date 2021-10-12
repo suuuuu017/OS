@@ -147,6 +147,26 @@ int main(){
                 }
             }
 
+
+            if(strcmp(commandTable[0], "pwd") == 0){
+                int fn = 1;
+                if (redirectionTable[0]) {
+                    fn = redir(redirectionTable, redTabLength);
+                }
+                char pwd[1024];
+                if(getcwd(pwd, sizeof(pwd)) != NULL){
+                    printf("%s\n", pwd);
+                }
+                if (redirectionTable[0]) {
+                    dup2(fn, 1);
+                    close(fn);
+                }
+                free(commandTable);
+                free(redirectionTable);
+                free(parsTab);
+                continue;
+            }
+
 //            if(strcmp(commandTable[0], "pwd") == 0){
 //                if (redirectionTable[0]) {
 //                    redir(redirectionTable, redTabLength);

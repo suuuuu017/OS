@@ -142,7 +142,8 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
     return parserTab;
 }
 
-void redir(char ** redirectionTable, int redTabLength){
+int redir(char ** redirectionTable, int redTabLength){
+    int saved_out = dup(1);
     for(int k = 0; k < redTabLength; k++){
 //        char * tmp = redirectionTable[k];
 //        printf("tmp is %s\n", tmp);
@@ -163,7 +164,8 @@ void redir(char ** redirectionTable, int redTabLength){
 //            printf("file name is %s\n", fn);
             int overwrite = creat(fn, 0644);
             dup2(overwrite, STDOUT_FILENO);
-            close(overwrite);
+//            close(overwrite);
+            return saved_out;
         }
         else if (strcmp(redirectionTable[k], ">>") == 0){
             //TODO: what it ">1.txt" with no space
@@ -173,9 +175,11 @@ void redir(char ** redirectionTable, int redTabLength){
 //            printf("file name is %s\n", fn);
             int append = open(fn, O_CREAT | O_RDWR | O_APPEND, 0644);
             dup2(append, STDOUT_FILENO);
-            close(append);
+//            close(append);
+            return saved_out;
         }
     }
+    return 1;
 }
 
 char * addspace(char * line, long length){
