@@ -12,7 +12,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <setjmp.h>
-#include <errno.h>
 
 #include "parser.h"
 #include "execute.h"

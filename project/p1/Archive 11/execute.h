@@ -12,7 +12,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <fcntl.h>
-#include <errno.h>
 
 typedef struct{
     char * command[1024];
@@ -21,10 +20,6 @@ typedef struct{
 typedef struct{
     command commandList[1024];
 } commandList;
-
-int checkforSpecialCharacter(char * nextString);
-
-int checkforSpecialChar(char * nextString);
 
 void sortCommand(int cmdNum, char * argv[], int commandLength, char ** cl[1024]);
 

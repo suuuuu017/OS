@@ -118,14 +118,6 @@ int main(){
             commandLength = parsTab->commandLength;
             redTabLength = parsTab->redTabLength;
 
-            if(commandLength == 0){
-                fprintf(stderr, "error: missing program\n");
-                free(commandTable);
-                free(redirectionTable);
-                free(parsTab);
-                continue;
-            }
-
             //TODO: weird processing order when input redirection is involved
             if (redirectionTable[0]) {
 //                redir(redirectionTable, redTabLength);
@@ -133,9 +125,7 @@ int main(){
 
             if(commandLength == 2){
                 if(strcmp(commandTable[0], "cd") == 0){
-                    if(chdir(commandTable[1]) < 0){
-                        fprintf(stderr, "%s: No such file or directory\n", commandTable[1]);
-                    }
+                    chdir(commandTable[1]);
                     free(commandTable);
                     free(redirectionTable);
                     free(parsTab);
@@ -161,27 +151,12 @@ int main(){
 //                printf("now command tab is %s\n", commandTable[0]);
             char *argv[1024] = {0};
             int cmdNum = 1;
-
-            int missingP = 0;
-
             for (int tmp = 0; tmp < commandLength; tmp++) {
                 if (strcmp(commandTable[tmp], "|") == 0) {
                     cmdNum = cmdNum + 1;
-                    if(strcmp(commandTable[tmp + 1], "|") == 0) {
-                        fprintf(stderr, "error: missing program\n");
-                        missingP = 1;
-                        break;
-                    }
                 }
 //                printf("arg is %s\n", commandTable[tmp]);
                 argv[tmp] = commandTable[tmp];
-            }
-
-            if(missingP){
-                free(commandTable);
-                free(redirectionTable);
-                free(parsTab);
-                continue;
             }
 //            printf("cmdnum is %i\n", cmdNum);
 //            printf("cmdLength is %i\n", commandLength);

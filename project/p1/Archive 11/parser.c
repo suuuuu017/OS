@@ -33,7 +33,7 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
         token = strtok(NULL, " \t\n");
         redirectionTable[j] = token;
         j = j + 1;
-//        printf("here");
+        printf("here");
     }
     else if (strcmp(token, ">>") == 0){
         parserTab->redirOut = 1;
@@ -51,10 +51,10 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
         token = strtok(NULL, " \t\n");
         redirectionTable[j] = token;
         j = j + 1;
-//        int input = 0;
-//        if ((input = open(token, O_RDONLY)) < 0) {
-//            fprintf(stderr, "error\n");
-//        }
+        int input = 0;
+        if ((input = open(token, O_RDONLY)) < 0) {
+            fprintf(stderr, "error\n");
+        }
     }
     else{
         commandTable[0] = token;
@@ -101,10 +101,10 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
                 j = j + 1;
 //                printf("file name is %s\n", token);
 //                TODO: is this open correct
-//                int input = 0;
-//                if ((input = open(token, O_RDONLY)) < 0) {
-//                    fprintf(stderr, "error\n");
-//                }
+                int input = 0;
+                if ((input = open(token, O_RDONLY)) < 0) {
+                    fprintf(stderr, "error\n");
+                }
             }
             else{
 //                printf("argument is %s, i is %i\n", token, i);

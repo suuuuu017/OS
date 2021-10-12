@@ -11,7 +11,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-
 typedef struct{
     char ** commandTable;
     char ** redirectionTable;

@@ -4,22 +4,6 @@
 
 #include "execute.h"
 
-int checkforSpecialCharacter(char * nextString){
-    if(strcmp(nextString, "<") == 0 || strcmp(nextString, ">") == 0 || strcmp(nextString, ">>") == 0
-        || strcmp(nextString, "|") == 0 || strcmp(nextString, "pwd") == 0 || strcmp(nextString, "cd") == 0){
-        return 1;
-    }
-    return 0;
-}
-
-int checkforSpecialChar(char * nextString){
-    if(strcmp(nextString, "<") == 0 || strcmp(nextString, ">") == 0 || strcmp(nextString, ">>") == 0
-       || strcmp(nextString, "|") == 0){
-        return 1;
-    }
-    return 0;
-}
-
 void sortCommand(int cmdNum, char * argv[], int commandLength, char ** cl[1024]) {
     int argvC = 0;
     for(int i = 0; i < cmdNum; i++) {
@@ -82,39 +66,17 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTa
             if (strcmp(redirectionTable[k], "<") == 0) {
                 k = k + 1;
                 redirInFn = redirectionTable[k];
-                if(checkforSpecialCharacter(redirInFn)){
-                    fprintf(stderr, "syntax error near unexpected token `%s\'\n", redirInFn);
-                    return;
-                }
-                redirIn = redirIn + 1;
+                redirIn = 1;
             } else if (strcmp(redirectionTable[k], ">") == 0) {
                 k = k + 1;
                 redirOutCreateFn = redirectionTable[k];
-                if(checkforSpecialCharacter(redirOutCreateFn)){
-                    fprintf(stderr, "syntax error near unexpected token `%s\'\n", redirOutCreateFn);
-                    return;
-                }
-                redirOutCreate = redirOutCreate + 1;
+                redirOutCreate = 1;
             } else if (strcmp(redirectionTable[k], ">>") == 0) {
                 k = k + 1;
                 redirOutAppendFn = redirectionTable[k];
-                if(checkforSpecialCharacter(redirOutAppendFn)){
-                    fprintf(stderr, "syntax error near unexpected token `%s\'\n", redirOutAppendFn);
-                    return;
-                }
-                redirOutAppend = redirOutAppend + 1;
+                redirOutAppend = 1;
             }
         }
-    }
-
-    if(redirIn > 1){
-        //TODO: what if pipes with different redirection
-        fprintf(stderr, "error: duplicated input redirection\n");
-        return;
-    }
-    if(redirOutCreate > 1 || redirOutAppend > 1 || (redirOutCreate + redirOutAppend) > 1){
-        fprintf(stderr, "error: duplicated output redirection\n");
-        return;
     }
 
     int status = 0;
@@ -125,12 +87,7 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTa
     int fdin;
 
     if(redirIn){
-        if((fdin = open(redirInFn, O_RDONLY)) < 0){
-            if(errno == ENOENT) {
-                fprintf(stderr, "%s: No such file or directory\n", redirInFn);
-            }
-            return;
-        }
+        fdin = open(redirInFn, O_RDONLY);
     }
     else{
         fdin = dup(prein);
@@ -150,21 +107,9 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTa
         if (i == cmdNum - 1) {
             if (redirOutCreate) {
                 fdout = creat(redirOutCreateFn, 0644);
-                if(fdout < 0){
-                    if(errno == EPERM || errno==EROFS){
-                        fprintf(stderr, "%s: Permission denied\n", redirOutCreateFn);
-                    }
-                    return;
-                }
             }
             else if (redirOutAppend){
                 fdout = open(redirOutAppendFn, O_CREAT | O_RDWR | O_APPEND, 0644);
-                if(fdout < 0){
-                    if(errno == EPERM || errno==EROFS){
-                        fprintf(stderr, "%s: Permission denied\n", redirOutAppendFn);
-                    }
-                    return;
-                }
             }
             else {
                 fdout = dup(preout);
@@ -221,8 +166,7 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTa
 //                execvp(cmd[0], cmd);
 //            }
             if(execvp(cmd[0], cmd) < 0){
-                //TODO: what if wrong  argument
-                fprintf(stderr, "%s: command not found\n", cmd[0]);
+                printf("non-exist: command not found\n");
             }
             _exit(1);
         }
