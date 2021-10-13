@@ -189,7 +189,7 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTa
                 //TODO: what if wrong  argument
                 fprintf(stderr, "%s: command not found\n", cmd[0]);
             }
-            _exit(1);
+            exit(1);
         }
     }
 

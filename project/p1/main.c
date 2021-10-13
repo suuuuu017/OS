@@ -94,7 +94,7 @@ int main(){
                 }
             }
 
-//                printf("now command tab is %s\n", commandTable[0]);
+//            printf("now command tab is %s\n", commandTable[0]);
             char *argv[1024] = {0};
             int cmdNum = 1;
 
@@ -111,6 +111,11 @@ int main(){
                 }
 //                printf("arg is %s\n", commandTable[tmp]);
                 argv[tmp] = commandTable[tmp];
+            }
+
+            if(strcmp(commandTable[0], "|") == 0){
+                fprintf(stderr, "error: missing program\n");
+                missingP = 1;
             }
 
             if(missingP){
