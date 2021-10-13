@@ -1,9 +1,0 @@
-WRITELN echo 123 > 1.txt
-WRITELN "echo" "<
-WRITELN 1.'txt'" <
-WRITELN 1.txt >
-WRITELN "2.""txt"
-WRITELN cat 1.txt
-WRITELN cat 2.txt
-WRITELN ls
-exit

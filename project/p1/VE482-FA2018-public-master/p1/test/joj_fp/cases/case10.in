@@ -1,5 +1,0 @@
-WRITELN echo 321 > 1.txt
-WRITELN <
-WRITELN 1.txt cat
-WRITELN ls
-WRITELN exit

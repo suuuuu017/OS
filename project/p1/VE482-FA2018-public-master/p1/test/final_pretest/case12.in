@@ -1,4 +1,0 @@
-WRITELN echo 321 |
-WRITELN cat |
-WRITELN cat
-WRITELN exit

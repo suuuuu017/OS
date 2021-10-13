@@ -1,3 +1,0 @@
-WRITELN sleep 0.6 | sleep 0.6
-WRITELN echo success
-WRITELN exit

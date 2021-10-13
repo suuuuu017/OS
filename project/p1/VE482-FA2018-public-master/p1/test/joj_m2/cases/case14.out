@@ -1,6 +1,0 @@
-mumsh $ mumsh $ /out/package
-mumsh $ 1.txt
-driver
-mumsh
-mumsh_memory_check
-mumsh $ exit

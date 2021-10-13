@@ -1,2 +1,0 @@
-WRITELN cat < non-existing.txt
-WRITELN exit
