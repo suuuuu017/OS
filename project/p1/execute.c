@@ -220,6 +220,15 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTa
 //            else{
 //                execvp(cmd[0], cmd);
 //            }
+
+            if(strcmp(cmd[0], "pwd") == 0){
+                char pwd[1024];
+                if(getcwd(pwd, sizeof(pwd)) != NULL){
+                    printf("%s\n", pwd);
+                }
+                exit(0);
+            }
+
             if(execvp(cmd[0], cmd) < 0){
                 //TODO: what if wrong  argument
                 fprintf(stderr, "%s: command not found\n", cmd[0]);
