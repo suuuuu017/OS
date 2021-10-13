@@ -72,9 +72,18 @@ int main(){
 
             if(commandLength == 0){
                 fprintf(stderr, "error: missing program\n");
-                free(commandTable);
-                free(redirectionTable);
-                free(parsTab);
+                if(commandTable){
+                    free(commandTable);
+                    commandTable = NULL;
+                }
+                if(redirectionTable){
+                    free(redirectionTable);
+                    redirectionTable = NULL;
+                }
+                if(parsTab){
+                    free(parsTab);
+                    parsTab = NULL;
+                }
                 continue;
             }
 
@@ -87,9 +96,18 @@ int main(){
                     if(chdir(commandTable[1]) < 0){
                         fprintf(stderr, "%s: No such file or directory\n", commandTable[1]);
                     }
-                    free(commandTable);
-                    free(redirectionTable);
-                    free(parsTab);
+                    if(commandTable){
+                        free(commandTable);
+                        commandTable = NULL;
+                    }
+                    if(redirectionTable){
+                        free(redirectionTable);
+                        redirectionTable = NULL;
+                    }
+                    if(parsTab){
+                        free(parsTab);
+                        parsTab = NULL;
+                    }
                     continue;
                 }
             }
@@ -119,9 +137,18 @@ int main(){
             }
 
             if(missingP){
-                free(commandTable);
-                free(redirectionTable);
-                free(parsTab);
+                if(commandTable){
+                    free(commandTable);
+                    commandTable = NULL;
+                }
+                if(redirectionTable){
+                    free(redirectionTable);
+                    redirectionTable = NULL;
+                }
+                if(parsTab){
+                    free(parsTab);
+                    parsTab = NULL;
+                }
                 continue;
             }
 
@@ -129,9 +156,18 @@ int main(){
 //                printf("%i\n", redirInH);
                 if(redirInH > 0 && parsTab->redirIn){
                     fprintf(stderr, "error: duplicated input redirection\n");
-                    free(commandTable);
-                    free(redirectionTable);
-                    free(parsTab);
+                    if(commandTable){
+                        free(commandTable);
+                        commandTable = NULL;
+                    }
+                    if(redirectionTable){
+                        free(redirectionTable);
+                        redirectionTable = NULL;
+                    }
+                    if(parsTab){
+                        free(parsTab);
+                        parsTab = NULL;
+                    }
                     continue;
                 }
                 else if(((redirAppendH < cmdNum - 1) && parsTab->redirOutAppend) ||
@@ -139,9 +175,18 @@ int main(){
 //                    printf("%i\n", redirAppendH);
 //                    printf("%i\n", redirCreateH);
                     fprintf(stderr, "error: duplicated output redirection\n");
-                    free(commandTable);
-                    free(redirectionTable);
-                    free(parsTab);
+                    if(commandTable){
+                        free(commandTable);
+                        commandTable = NULL;
+                    }
+                    if(redirectionTable){
+                        free(redirectionTable);
+                        redirectionTable = NULL;
+                    }
+                    if(parsTab){
+                        free(parsTab);
+                        parsTab = NULL;
+                    }
                     continue;
                 }
             }
