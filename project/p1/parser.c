@@ -114,12 +114,6 @@ parserTable * returnCommandTable(char **line_pointer, int cL, int rL) {
                 token = strtok(NULL, " \t\n");
                 redirectionTable[j] = token;
                 j = j + 1;
-//                printf("file name is %s\n", token);
-//                TODO: is this open correct
-//                int input = 0;
-//                if ((input = open(token, O_RDONLY)) < 0) {
-//                    fprintf(stderr, "error\n");
-//                }
                 parserTab->redirInH = cmd;
             }
             else{

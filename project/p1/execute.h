@@ -24,8 +24,6 @@ typedef struct{
 
 int checkforSpecialCharacter(char * nextString);
 
-int checkforSpecialChar(char * nextString);
-
 void sortCommand(int cmdNum, char * argv[], int commandLength, char ** cl[1024]);
 
 void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTable, int redTabLength);

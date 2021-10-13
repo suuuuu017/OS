@@ -12,14 +12,6 @@ int checkforSpecialCharacter(char * nextString){
     return 0;
 }
 
-int checkforSpecialChar(char * nextString){
-    if(strcmp(nextString, "<") == 0 || strcmp(nextString, ">") == 0 || strcmp(nextString, ">>") == 0
-       || strcmp(nextString, "|") == 0){
-        return 1;
-    }
-    return 0;
-}
-
 void sortCommand(int cmdNum, char * argv[], int commandLength, char ** cl[1024]) {
     int argvC = 0;
     for(int i = 0; i < cmdNum; i++) {
@@ -57,19 +49,6 @@ void sortCommand(int cmdNum, char * argv[], int commandLength, char ** cl[1024])
 
 void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTable, int redTabLength){
 
-//    char * cmd1[2] = {0};
-//    cmd1[0] = "ls";
-//    cmd1[1] = NULL;
-//
-//    char * cmd2[3] = {0};
-//    cmd2[0] = "grep";
-//    cmd2[1] = "mum";
-//    cmd2[2] = NULL;
-//    cmd2[3] = NULL;
-//
-//    char ** cll[2];
-//    cll[0] = cmd1;
-//    cll[1] = cmd2;
     char *redirInFn;
     char *redirOutCreateFn;
     char *redirOutAppendFn;
@@ -108,7 +87,6 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTa
     }
 
     if(redirIn > 1){
-        //TODO: what if pipes with different redirection
         fprintf(stderr, "error: duplicated input redirection\n");
         return;
     }
@@ -197,29 +175,7 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTa
         pid = fork();
         pipeid[i] = pid;
         if (pid == 0) {
-//            if(i == 0){
-//                execvp(cmd1[0], cmd1);
-//            }
-//            else if(i == 1){
-//                execvp(cmd2[1], &cmd2[1]);
-//            }
-//            printf("current commmmmand is %s\n", cmd[0]);
-//            execvp(cl[i][0], cl[i]);
-//            printf("hi from child\n");
-//            printf("%s %s \n",cmd[0], cmd[1]);
             signal(SIGINT, SIG_DFL);
-//            if(strcmp(cmd[0], "pwd") == 0){
-//                char pwd[1024];
-//                if(getcwd(pwd, sizeof(pwd)) == NULL){
-//                    perror("pwd error");
-//                }
-//                else{
-//                    printf("%s\n", pwd);
-//                }
-//            }
-//            else{
-//                execvp(cmd[0], cmd);
-//            }
 
             if(strcmp(cmd[0], "pwd") == 0){
                 char pwd[1024];
@@ -244,5 +200,4 @@ void pipeCmd(int cmdNum, char * argv[], int commandLength, char ** redirectionTa
     for(int i = 0; i < cmdNum; i++) {
         waitpid(pipeid[i], &status, WUNTRACED);
     }
-//    waitpid(pid, &status, WUNTRACED);
 }
