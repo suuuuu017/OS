@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/suuuuu017/CLionProjects/VE482_2021FA/project/p1/main.c
+main.h
+/Users/suuuuu017/CLionProjects/VE482_2021FA/project/p1/main.h
+parser.h
+/Users/suuuuu017/CLionProjects/VE482_2021FA/project/p1/parser.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+unistd.h
+-
+sys/wait.h
+-
+
+/Users/suuuuu017/CLionProjects/VE482_2021FA/project/p1/main.h
+
+/Users/suuuuu017/CLionProjects/VE482_2021FA/project/p1/parser.c
+parser.h
+/Users/suuuuu017/CLionProjects/VE482_2021FA/project/p1/parser.h
+
+/Users/suuuuu017/CLionProjects/VE482_2021FA/project/p1/parser.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+unistd.h
+-
+fcntl.h
+-
+
