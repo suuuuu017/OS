@@ -8,9 +8,9 @@
 
 int mode = -1;
 int type = -1;
-int llLength = 0;
+unsigned long llLength = 0;
 
-int randE(const void *a, const void *b){
+int randE(){
     return (((rand())%2)*2-1);
 }
 
@@ -49,10 +49,12 @@ void readFile(char * filename, node * linkedList){
     FILE * fptr;
     fptr = fopen(filename, "r");
 
-    char * line = NULL;
-    size_t size = 1024;
+    char * line = {0};
+    size_t size = 2048;
     long length = 0;
     node * tmp = linkedList;
+    tmp->data = NULL;
+    tmp->key = NULL;
     char * token;
     while ((length = getline(&line, &size, fptr)) > 1) {
         int i = 0;
@@ -73,7 +75,7 @@ void readFile(char * filename, node * linkedList){
                         *(double *) tmp->data = (atof(token));
                     }
                     if(type == 2) {
-                        tmp->data = (void *) malloc(sizeof(char) * strlen(token));
+                        tmp->data = (void *) malloc(sizeof(char) * (strlen(token)+1));
                         strcpy((char *) tmp->data, token);
                     }
                 }
@@ -90,7 +92,10 @@ int main(int argc, char **argv){
     char * filename = argv[1];
 
     //deal with the type identify
-    char line[256];
+    if(argc != 3){
+        return 1;
+    }
+    char line[2048];
     char * typeString;
     strcpy(line, argv[1]);
     typeString = strtok(line,"_");
@@ -102,7 +107,7 @@ int main(int argc, char **argv){
     else if(strcmp(typeString, "double") == 0){
         type = 1;
     }
-    else if(strcmp(typeString, "char") == 0){
+    else if(strcmp(typeString, "char*") == 0){
         type = 2;
     }
 
@@ -120,6 +125,7 @@ int main(int argc, char **argv){
     //create linked list and input
     node * linkedList = (node *)malloc(sizeof(node));
 
+    //TODO: deal with if the file does not exist
     printf("reading %s\n", argv[1]);
     readFile(filename, linkedList);
 
@@ -128,7 +134,7 @@ int main(int argc, char **argv){
     //use qsort to sort list
     node *nodeArray = malloc(sizeof(node) * (llLength));
     curr = linkedList->next;
-    for (int i = 0; i < llLength; i++)
+    for (unsigned long i = 0; i < llLength; i++)
     {
         memcpy(nodeArray + i, curr, sizeof(node));
         curr = curr->next;
@@ -139,7 +145,7 @@ int main(int argc, char **argv){
 
     //copy the array back to the linked list
     curr = linkedList->next;
-    for (int i = 0; i < llLength; i++)
+    for (unsigned long i = 0; i < llLength; i++)
     {
         curr->key = (nodeArray + i)->key;
         curr->data = (nodeArray + i)->data;
@@ -149,7 +155,7 @@ int main(int argc, char **argv){
     free(nodeArray);
 
     FILE * fp;
-    char fn[1024];
+    char fn[2048] = {0};
     strcat(fn, argv[2]);
     strcat(fn, "_");
     strcat(fn, typeString);
@@ -157,7 +163,7 @@ int main(int argc, char **argv){
     printf("writing %s\n", fn);
     fp = fopen(fn, "w");
     curr = linkedList->next;
-    for (int i = 0; i < llLength; i++)
+    for (unsigned long i = 0; i < llLength; i++)
     {
         if(strcmp(typeString, "int") == 0){
             fprintf(fp, "%s=%i\n", curr->key, *(int *)curr->data);
@@ -165,7 +171,7 @@ int main(int argc, char **argv){
         else if(strcmp(typeString, "double") == 0){
             fprintf(fp, "%s=%f\n", curr->key, *(double *)curr->data);
         }
-        else if(strcmp(typeString, "char") == 0){
+        else if(strcmp(typeString, "char*") == 0){
             fprintf(fp, "%s=%s\n", curr->key, (char *)curr->data);
         }
         curr = curr->next;
@@ -173,15 +179,15 @@ int main(int argc, char **argv){
     fclose(fp);
 
     curr = linkedList->next;
-    for (int i = 0; i < llLength; i++)
+    for (unsigned long i = 0; i < llLength; i++)
     {
         free(curr->key);
         free(curr->data);
-        node * victim = curr;
+        node * victim = curr->next;
         free(curr);
-        curr = victim->next;
+        curr = victim;
     }
-    free(curr);
+//    free(curr);
     free(linkedList->key);
     free(linkedList->data);
     free(linkedList);
